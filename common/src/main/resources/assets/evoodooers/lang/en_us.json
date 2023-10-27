@@ -2,5 +2,6 @@
   "item.evoodooers.hair_tuft": "Tuft of Hair",
   "item.evoodooers.hair_tuft.named": "Tuft of %s's Hair",
 
-  "block.evoodooers.voodoo_doll": "Voodoo Doll"
+  "block.evoodooers.voodoo_doll": "Voodoo Doll",
+  "block.evoodooers.voodoo_doll.named": "%s Doll"
 }
