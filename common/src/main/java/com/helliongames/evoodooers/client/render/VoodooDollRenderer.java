@@ -2,7 +2,6 @@ package com.helliongames.evoodooers.client.render;
 
 import com.helliongames.evoodooers.Constants;
 import com.helliongames.evoodooers.block.VoodooDollBlock;
-import com.helliongames.evoodooers.entity.block.VoodooDollBlockEntity;
 import com.helliongames.evoodooers.registration.EvoodooersBlocks;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -19,7 +18,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -73,7 +71,7 @@ public class VoodooDollRenderer<T extends BlockEntity> implements BlockEntityRen
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
         poseStack.translate(0.5, -1.5, -0.5);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(blockState.getValue(VoodooDollBlock.FACING).toYRot()));
+        poseStack.mulPose(Axis.YP.rotationDegrees(((VoodooDollBlock) block).getYRotationDegrees(blockState)));
 
         VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
         this.render(poseStack, vertexConsumer, this.body, i, j);
