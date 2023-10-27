@@ -16,6 +16,9 @@
     "entrypoints": {
         "main": [
             "com.helliongames.evoodooers.Evoodooers"
+        ],
+        "client" : [
+          "com.helliongames.evoodooers.client.EvoodooersClient"
         ]
     },
     "mixins": [

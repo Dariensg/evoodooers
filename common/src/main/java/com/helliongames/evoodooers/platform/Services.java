@@ -1,6 +1,7 @@
 package com.helliongames.evoodooers.platform;
 
 import com.helliongames.evoodooers.Constants;
+import com.helliongames.evoodooers.platform.services.IClientHelper;
 import com.helliongames.evoodooers.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
@@ -14,6 +15,8 @@ public class Services {
     // For example this can be used to check if the code is running on Forge vs Fabric, or to ask the modloader if another
     // mod is loaded.
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
+
+    public static final IClientHelper CLIENT_HELPER = load(IClientHelper.class);
 
     // This code is used to load a service for the current environment. Your implementation of the service must be defined
     // manually by including a text file in META-INF/services named with the fully qualified class name of the service.
