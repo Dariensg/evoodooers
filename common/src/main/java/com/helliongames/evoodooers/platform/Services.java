@@ -1,7 +1,7 @@
-package com.example.examplemod.platform;
+package com.helliongames.evoodooers.platform;
 
-import com.example.examplemod.Constants;
-import com.example.examplemod.platform.services.IPlatformHelper;
+import com.helliongames.evoodooers.Constants;
+import com.helliongames.evoodooers.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 

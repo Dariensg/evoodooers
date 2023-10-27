@@ -1,6 +1,6 @@
-package com.example.examplemod.platform;
+package com.helliongames.evoodooers.platform;
 
-import com.example.examplemod.platform.services.IPlatformHelper;
+import com.helliongames.evoodooers.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 

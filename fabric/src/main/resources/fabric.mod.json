@@ -3,34 +3,30 @@
     "id": "mod_id",
     "version": "${version}",
     "name": "${mod_name}",
-    "description": "This is an example description! Tell everyone what your mod is about!",
+    "description": "A simple mod for SpookyJam 2023 that adds voodoo dolls for pranking your friends!",
     "authors": [
         "${mod_author}"
     ],
     "contact": {
-        "homepage": "https://fabricmc.net/",
-        "sources": "https://github.com/FabricMC/fabric-example-mod"
+        "sources": "https://github.com/Dariensg/evoodooers"
     },
-    "license": "CC0-1.0",
+    "license": "Apache-2.0",
     "icon": "assets/modid/icon.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.example.examplemod.ExampleMod"
+            "com.helliongames.evoodooers.Evoodooers"
         ]
     },
     "mixins": [
-        "examplemod.mixins.json",
-        "examplemod.fabric.mixins.json"
+      "evoodooers.mixins.json",
+      "evoodooers.fabric.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=0.14",
         "fabric": "*",
-        "minecraft": "1.20",
+        "minecraft": "1.20.1",
         "java": ">=17"
-    },
-    "suggests": {
-        "another-mod": "*"
     }
 }
   
