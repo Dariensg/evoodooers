@@ -6,5 +6,8 @@
   "block.evoodooers.voodoo_doll.named": "%s Doll",
 
   "block.evoodooers.bed.no_hair": "You found no hair in this bed.",
-  "block.evoodooers.bed.hair": "You found %s's hair in this bed."
+  "block.evoodooers.bed.hair": "You found %s's hair in this bed.",
+
+  "block.evoodooers.voodoo_doll.no_player": "This doll is not bound to a player.",
+  "block.evoodooers.voodoo_doll.no_player_found": "%s is not in this world."
 }
