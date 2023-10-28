@@ -29,12 +29,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
 public class VoodooDollRenderer<T extends BlockEntity> implements BlockEntityRenderer<T> {
     public static final ModelLayerLocation VOODOO_DOLL = new ModelLayerLocation(new ResourceLocation(Constants.MOD_ID, "voodoo_doll"), "main");
     private static final ResourceLocation TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/block/voodoo_doll.png");

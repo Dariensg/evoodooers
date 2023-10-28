@@ -49,52 +49,65 @@ public class VoodooDollBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         if (level.getBlockEntity(pos) instanceof VoodooDollBlockEntity voodooDoll) {
-            if (voodooDoll.getOwnerProfile() == null) {
-                player.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player"), true);
-                return InteractionResult.CONSUME;
-            }
-
-            Player targetedPlayer = level.getPlayerByUUID(voodooDoll.getOwnerProfile().getId());
-            if (targetedPlayer == null) {
-                player.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player_found", voodooDoll.getOwnerProfile().getName()), true);
-                return InteractionResult.CONSUME;
-            };
-
             ItemStack heldItem = player.getItemInHand(hand);
 
-            if (heldItem.is(Items.FLINT_AND_STEEL) ) {
+            if (heldItem.is(Items.FLINT_AND_STEEL)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 targetedPlayer.setSecondsOnFire(1);
                 heldItem.hurtAndBreak(1, player, player2 -> player2.broadcastBreakEvent(hand));
             } else if (heldItem.is(Items.POWDER_SNOW_BUCKET)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 targetedPlayer.setTicksFrozen(200);
                 player.setItemInHand(hand, BucketItem.getEmptySuccessItem(heldItem, player));
             } else if (heldItem.is(Items.ECHO_SHARD)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.WARDEN_EMERGE, SoundSource.HOSTILE, 5.0f, player.getVoicePitch());
                 targetedPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160));
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
             } else if (heldItem.is(Items.ROTTEN_FLESH)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.ZOMBIE_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
             } else if (heldItem.is(Items.SPIDER_EYE)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.SPIDER_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
             } else if (heldItem.is(Items.BONE)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.SKELETON_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
             } else if (heldItem.is(Items.GUNPOWDER)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.CREEPER_PRIMED, SoundSource.HOSTILE, 1.0f, 1.0f);
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
             } else if (heldItem.is(Items.ENDER_PEARL)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
                 level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.ENDERMAN_STARE, SoundSource.HOSTILE, 1.0f, 1.0f);
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
@@ -107,6 +120,21 @@ public class VoodooDollBlock extends BaseEntityBlock {
         }
 
         return super.use(state, level, pos, player, hand, blockHitResult);
+    }
+
+    public Player getTargetPlayer(Player interactingPlayer, Level level, VoodooDollBlockEntity voodooDoll) {
+        if (voodooDoll.getOwnerProfile() == null) {
+            interactingPlayer.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player"), true);
+            return null;
+        }
+
+        Player targetedPlayer = level.getPlayerByUUID(voodooDoll.getOwnerProfile().getId());
+        if (targetedPlayer == null) {
+            interactingPlayer.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player_found", voodooDoll.getOwnerProfile().getName()), true);
+            return null;
+        }
+
+        return targetedPlayer;
     }
 
     @Override
