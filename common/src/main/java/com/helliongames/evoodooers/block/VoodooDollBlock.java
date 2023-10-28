@@ -36,6 +36,16 @@ public class VoodooDollBlock extends BaseEntityBlock {
     }
 
     @Override
+    public ItemStack getCloneItemStack(BlockGetter getter, BlockPos pos, BlockState state) {
+        ItemStack stack = new ItemStack(this);
+        if (getter.getBlockEntity(pos) instanceof VoodooDollBlockEntity voodooDollBlockEntity && voodooDollBlockEntity.getOwnerProfile() != null) {
+            stack.getOrCreateTag().putString("ConnectedPlayer", voodooDollBlockEntity.getOwnerProfile().getName());
+        }
+
+        return stack;
+    }
+
+    @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
         super.setPlacedBy(level, pos, state, entity, stack);
         BlockEntity blockEntity = level.getBlockEntity(pos);
