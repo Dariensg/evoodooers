@@ -7,8 +7,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -56,12 +60,45 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 return InteractionResult.CONSUME;
             };
 
-            if (player.getItemInHand(hand).is(Items.FLINT_AND_STEEL) ) {
+            ItemStack heldItem = player.getItemInHand(hand);
+
+            if (heldItem.is(Items.FLINT_AND_STEEL) ) {
                 targetedPlayer.setSecondsOnFire(1);
-                player.getItemInHand(hand).hurtAndBreak(1, player, player2 -> player2.broadcastBreakEvent(hand));
-            } else if (player.getItemInHand(hand).is(Items.POWDER_SNOW_BUCKET)) {
+                heldItem.hurtAndBreak(1, player, player2 -> player2.broadcastBreakEvent(hand));
+            } else if (heldItem.is(Items.POWDER_SNOW_BUCKET)) {
                 targetedPlayer.setTicksFrozen(200);
-                player.setItemInHand(hand, BucketItem.getEmptySuccessItem(player.getItemInHand(hand), player));
+                player.setItemInHand(hand, BucketItem.getEmptySuccessItem(heldItem, player));
+            } else if (heldItem.is(Items.ECHO_SHARD)) {
+                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.WARDEN_EMERGE, SoundSource.HOSTILE, 5.0f, player.getVoicePitch());
+                targetedPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160));
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.ROTTEN_FLESH)) {
+                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.ZOMBIE_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.SPIDER_EYE)) {
+                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.SPIDER_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.BONE)) {
+                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.SKELETON_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.GUNPOWDER)) {
+                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.CREEPER_PRIMED, SoundSource.HOSTILE, 1.0f, 1.0f);
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.ENDER_PEARL)) {
+                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.ENDERMAN_STARE, SoundSource.HOSTILE, 1.0f, 1.0f);
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
             } else {
                 return InteractionResult.PASS;
             }
