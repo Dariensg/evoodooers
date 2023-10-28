@@ -1,9 +1,16 @@
 package com.helliongames.evoodooers.block;
 
 import com.helliongames.evoodooers.entity.block.VoodooDollBlockEntity;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -26,6 +33,25 @@ public class VoodooDollBlock extends BaseEntityBlock {
     public VoodooDollBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ROTATION, 0));
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, entity, stack);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof VoodooDollBlockEntity) {
+            VoodooDollBlockEntity voodooDollBlockEntity = (VoodooDollBlockEntity)blockEntity;
+            GameProfile gameProfile = null;
+            if (stack.hasTag()) {
+                CompoundTag compoundTag = stack.getTag();
+                if (compoundTag.contains("ConnectedPlayer", 10)) {
+                    gameProfile = NbtUtils.readGameProfile(compoundTag.getCompound("ConnectedPlayer"));
+                } else if (compoundTag.contains("ConnectedPlayer", 8) && !Util.isBlank(compoundTag.getString("ConnectedPlayer"))) {
+                    gameProfile = new GameProfile(null, compoundTag.getString("ConnectedPlayer"));
+                }
+            }
+            voodooDollBlockEntity.setOwner(gameProfile);
+        }
     }
 
     @Override
