@@ -4,9 +4,13 @@ import com.helliongames.evoodooers.entity.block.VoodooDollBlockEntity;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -75,7 +79,8 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
-                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.WARDEN_EMERGE, SoundSource.HOSTILE, 5.0f, player.getVoicePitch());
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.WARDEN_EMERGE, 5.0f);
+
                 targetedPlayer.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160));
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
@@ -84,7 +89,8 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
-                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.ZOMBIE_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.ZOMBIE_AMBIENT, 1.0f);
+
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
@@ -92,7 +98,8 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
-                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.SPIDER_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.SPIDER_AMBIENT, 1.0f);
+
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
@@ -100,7 +107,8 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
-                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.SKELETON_AMBIENT, SoundSource.HOSTILE, 1.0f, 1.0f);
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.SKELETON_AMBIENT, 1.0f);
+
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
@@ -108,7 +116,8 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
-                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.CREEPER_PRIMED, SoundSource.HOSTILE, 1.0f, 1.0f);
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.CREEPER_PRIMED, 1.0f);
+
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
@@ -116,7 +125,8 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
-                level.playSound(null, targetedPlayer.blockPosition(), SoundEvents.ENDERMAN_STARE, SoundSource.HOSTILE, 1.0f, 1.0f);
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.ENDERMAN_STARE, 1.0f);
+
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
                 }
@@ -128,6 +138,12 @@ public class VoodooDollBlock extends BaseEntityBlock {
         }
 
         return super.use(state, level, pos, player, hand, blockHitResult);
+    }
+
+    private void playSoundToPlayer(Player targetedPlayer, SoundEvent sound, float volume) {
+        if (targetedPlayer instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(sound), SoundSource.HOSTILE, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), volume, serverPlayer.getVoicePitch(), serverPlayer.getRandom().nextLong()));
+        }
     }
 
     public Player getTargetPlayer(Player interactingPlayer, Level level, VoodooDollBlockEntity voodooDoll) {
