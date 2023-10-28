@@ -3,5 +3,8 @@
   "item.evoodooers.hair_tuft.named": "Tuft of %s's Hair",
 
   "block.evoodooers.voodoo_doll": "Voodoo Doll",
-  "block.evoodooers.voodoo_doll.named": "%s Doll"
+  "block.evoodooers.voodoo_doll.named": "%s Doll",
+
+  "block.evoodooers.bed.no_hair": "You found no hair in this bed.",
+  "block.evoodooers.bed.hair": "You found %s's hair in this bed."
 }
