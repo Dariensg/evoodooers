@@ -136,7 +136,15 @@ public class VoodooDollBlock extends BaseEntityBlock {
             return null;
         }
 
-        Player targetedPlayer = level.getPlayerByUUID(voodooDoll.getOwnerProfile().getId());
+        Player targetedPlayer = null;
+
+        if (level.getServer() == null) return null;
+
+        for (Level serverLevel : level.getServer().getAllLevels()) {
+            targetedPlayer = serverLevel.getPlayerByUUID(voodooDoll.getOwnerProfile().getId());
+            if (targetedPlayer != null) break;
+        }
+
         if (targetedPlayer == null) {
             interactingPlayer.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player_found", voodooDoll.getOwnerProfile().getName()), true);
             return null;
