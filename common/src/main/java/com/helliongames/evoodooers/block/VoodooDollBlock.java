@@ -51,6 +51,14 @@ public class VoodooDollBlock extends BaseEntityBlock {
         if (level.getBlockEntity(pos) instanceof VoodooDollBlockEntity voodooDoll) {
             ItemStack heldItem = player.getItemInHand(hand);
 
+            if (voodooDoll.getOwnerProfile() == null && heldItem.is(Items.NAME_TAG) && heldItem.hasCustomHoverName() && (voodooDoll.getUnboundProfile() == null || !heldItem.getHoverName().getString().equals(voodooDoll.getUnboundProfile().getName()))) {
+                GameProfile gameProfile = new GameProfile(null, heldItem.getHoverName().getString());
+                voodooDoll.setUnboundPlayer(gameProfile);
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            }
+
             if (heldItem.is(Items.FLINT_AND_STEEL)) {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;

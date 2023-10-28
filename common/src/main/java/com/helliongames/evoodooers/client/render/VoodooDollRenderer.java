@@ -81,6 +81,11 @@ public class VoodooDollRenderer<T extends BlockEntity> implements BlockEntityRen
         VertexConsumer vertexConsumer;
 
         GameProfile profile = ((VoodooDollBlockEntity) blockEntity).getOwnerProfile();
+
+        if (profile == null) {
+            profile = ((VoodooDollBlockEntity) blockEntity).getUnboundProfile();
+        }
+
         if (profile != null) {
             Minecraft minecraft = Minecraft.getInstance();
             Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager().getInsecureSkinInformation(profile);

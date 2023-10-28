@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 
 public class VoodooDollBlockEntity extends BlockEntity {
     public static final String TAG_CONNECTED_PLAYER = "ConnectedPlayer";
+    public static final String TAG_UNBOUND_PLAYER = "UnboundPlayer";
     @Nullable
     private static GameProfileCache profileCache;
     @Nullable
@@ -31,6 +32,8 @@ public class VoodooDollBlockEntity extends BlockEntity {
     private static Executor mainThreadExecutor;
     @Nullable
     private GameProfile owner;
+    @Nullable
+    private GameProfile unboundPlayer;
     public VoodooDollBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -59,6 +62,11 @@ public class VoodooDollBlockEntity extends BlockEntity {
             NbtUtils.writeGameProfile(compoundTag2, this.owner);
             tag.put(TAG_CONNECTED_PLAYER, compoundTag2);
         }
+        if (this.unboundPlayer != null) {
+            CompoundTag compoundTag2 = new CompoundTag();
+            NbtUtils.writeGameProfile(compoundTag2, this.unboundPlayer);
+            tag.put(TAG_UNBOUND_PLAYER, compoundTag2);
+        }
     }
 
     @Override
@@ -66,6 +74,9 @@ public class VoodooDollBlockEntity extends BlockEntity {
         super.load(tag);
         if (tag.contains(TAG_CONNECTED_PLAYER, 10)) {
             this.setOwner(NbtUtils.readGameProfile(tag.getCompound(TAG_CONNECTED_PLAYER)));
+        }
+        if (tag.contains(TAG_UNBOUND_PLAYER, 10)) {
+            this.setUnboundPlayer(NbtUtils.readGameProfile(tag.getCompound(TAG_UNBOUND_PLAYER)));
         }
     }
 
@@ -82,17 +93,41 @@ public class VoodooDollBlockEntity extends BlockEntity {
         return this.owner;
     }
 
+    @Nullable
+    public GameProfile getUnboundProfile() {
+        return this.unboundPlayer;
+    }
+
     public void setOwner(@Nullable GameProfile profile) {
         synchronized(this) {
             this.owner = profile;
         }
 
         this.updateOwnerProfile();
+
+        if (this.owner != null) {
+            this.unboundPlayer = null;
+        }
+    }
+
+    public void setUnboundPlayer(@Nullable GameProfile profile) {
+        synchronized(this) {
+            this.unboundPlayer = profile;
+        }
+
+        this.updateUnboundProfile();
     }
 
     private void updateOwnerProfile() {
         updateGameprofile(this.owner, (profile) -> {
             this.owner = profile;
+            this.setChanged();
+        });
+    }
+
+    private void updateUnboundProfile() {
+        updateGameprofile(this.unboundPlayer, (profile) -> {
+            this.unboundPlayer = profile;
             this.setChanged();
         });
     }
