@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -101,6 +102,17 @@ public class VoodooDollBlock extends BaseEntityBlock {
 
                 if (!level.isClientSide) {
                     level.explode(null, targetedPlayer.getX(), targetedPlayer.getEyeY(), targetedPlayer.getZ(), 10.0f, false, Level.ExplosionInteraction.NONE);
+                }
+
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.POTION) || heldItem.is(Items.SPLASH_POTION) || heldItem.is(Items.LINGERING_POTION)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
+                for (MobEffectInstance effect : PotionUtils.getMobEffects(heldItem)) {
+                    targetedPlayer.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration() / 10, effect.getAmplifier()));
                 }
 
                 if (!player.getAbilities().instabuild) {
