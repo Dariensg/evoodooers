@@ -95,6 +95,17 @@ public class VoodooDollBlock extends BaseEntityBlock {
 
                 targetedPlayer.setTicksFrozen(200);
                 player.setItemInHand(hand, BucketItem.getEmptySuccessItem(heldItem, player));
+            } else if (heldItem.is(Items.TNT)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
+                if (!level.isClientSide) {
+                    level.explode(null, targetedPlayer.getX(), targetedPlayer.getEyeY(), targetedPlayer.getZ(), 10.0f, false, Level.ExplosionInteraction.NONE);
+                }
+
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
             } else if (heldItem.is(Items.ECHO_SHARD)) {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
