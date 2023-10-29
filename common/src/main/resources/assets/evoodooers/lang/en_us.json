@@ -9,5 +9,7 @@
   "block.evoodooers.bed.hair": "You found %s's hair in this bed.",
 
   "block.evoodooers.voodoo_doll.no_player": "This doll is not bound to a player.",
-  "block.evoodooers.voodoo_doll.no_player_found": "%s is not in this world."
+  "block.evoodooers.voodoo_doll.no_player_found": "%s is not in this world.",
+
+  "itemGroup.evoodooers_tab": "Evoodooers"
 }
