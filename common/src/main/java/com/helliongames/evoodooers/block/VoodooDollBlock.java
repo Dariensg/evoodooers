@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -161,7 +162,8 @@ public class VoodooDollBlock extends BaseEntityBlock {
 
     private void playSoundToPlayer(Player targetedPlayer, SoundEvent sound, float volume) {
         if (targetedPlayer instanceof ServerPlayer serverPlayer) {
-            serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(sound), SoundSource.HOSTILE, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), volume, serverPlayer.getVoicePitch(), serverPlayer.getRandom().nextLong()));
+            float rot = serverPlayer.getYRot();
+            serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(sound), SoundSource.HOSTILE, serverPlayer.getX() + Mth.sin(rot * Mth.DEG_TO_RAD) * 2, serverPlayer.getY(), serverPlayer.getZ() - Mth.cos(rot * Mth.DEG_TO_RAD) * 2, volume, serverPlayer.getVoicePitch(), serverPlayer.getRandom().nextLong()));
         }
     }
 
