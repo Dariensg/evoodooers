@@ -17,6 +17,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -48,6 +49,16 @@ public class VoodooDollBlock extends BaseEntityBlock {
     public VoodooDollBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ROTATION, 0));
+    }
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        if (level.getBlockEntity(pos) instanceof VoodooDollBlockEntity voodooDoll) {
+            Player targetedPlayer = this.getTargetPlayer(null, level, voodooDoll);
+            if (targetedPlayer == null) return;
+
+            targetedPlayer.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20));
+        }
     }
 
     @Override
@@ -154,9 +165,9 @@ public class VoodooDollBlock extends BaseEntityBlock {
         }
     }
 
-    public Player getTargetPlayer(Player interactingPlayer, Level level, VoodooDollBlockEntity voodooDoll) {
+    public Player getTargetPlayer(@Nullable Player interactingPlayer, Level level, VoodooDollBlockEntity voodooDoll) {
         if (voodooDoll.getOwnerProfile() == null) {
-            interactingPlayer.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player"), true);
+            if (interactingPlayer != null) interactingPlayer.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player"), true);
             return null;
         }
 
@@ -170,7 +181,7 @@ public class VoodooDollBlock extends BaseEntityBlock {
         }
 
         if (targetedPlayer == null) {
-            interactingPlayer.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player_found", voodooDoll.getOwnerProfile().getName()), true);
+            if (interactingPlayer != null) interactingPlayer.displayClientMessage(Component.translatable("block.evoodooers.voodoo_doll.no_player_found", voodooDoll.getOwnerProfile().getName()), true);
             return null;
         }
 
