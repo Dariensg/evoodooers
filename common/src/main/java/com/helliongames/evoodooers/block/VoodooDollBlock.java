@@ -68,7 +68,7 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
                 targetedPlayer.setSecondsOnFire(1);
-                heldItem.hurtAndBreak(1, player, player2 -> player2.broadcastBreakEvent(hand));
+                heldItem.hurtAndBreak(15, player, player2 -> player2.broadcastBreakEvent(hand));
             } else if (heldItem.is(Items.POWDER_SNOW_BUCKET)) {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
