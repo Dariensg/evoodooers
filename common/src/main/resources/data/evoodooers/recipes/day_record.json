@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "V": {
+      "item": "evoodooers:voodoo_doll"
+    }
+  },
+  "pattern": [
+    " I ",
+    "IVI",
+    " I "
+  ],
+  "result": {
+    "item": "evoodooers:day_record"
+  },
+  "show_notification": true
+}

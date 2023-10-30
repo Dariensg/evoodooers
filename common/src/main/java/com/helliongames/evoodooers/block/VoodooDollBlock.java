@@ -103,7 +103,7 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
                 if (!level.isClientSide) {
-                    targetedPlayer.level().explode(null, targetedPlayer.getX(), targetedPlayer.getEyeY(), targetedPlayer.getZ(), 10.0f, false, Level.ExplosionInteraction.NONE);
+                    targetedPlayer.level().explode(null, targetedPlayer.getX() + targetedPlayer.getRandom().nextInt(2) - 1, targetedPlayer.getEyeY(), targetedPlayer.getZ() + targetedPlayer.getRandom().nextInt(2) - 1, 1.0f, false, Level.ExplosionInteraction.NONE);
                 }
 
                 if (!player.getAbilities().instabuild) {

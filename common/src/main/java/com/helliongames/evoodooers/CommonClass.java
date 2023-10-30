@@ -4,6 +4,7 @@ import com.helliongames.evoodooers.registration.EvoodooersBlockEntities;
 import com.helliongames.evoodooers.registration.EvoodooersBlocks;
 import com.helliongames.evoodooers.registration.EvoodooersItems;
 import com.helliongames.evoodooers.registration.EvoodooersRecipes;
+import com.helliongames.evoodooers.registration.EvoodooersSoundEvents;
 import com.helliongames.evoodooers.registration.EvoodooersTabs;
 
 public class CommonClass {
@@ -13,5 +14,6 @@ public class CommonClass {
         EvoodooersBlockEntities.loadClass();
         EvoodooersRecipes.loadClass();
         EvoodooersTabs.loadClass();
+        EvoodooersSoundEvents.loadClass();
     }
 }

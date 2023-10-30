@@ -1,0 +1,10 @@
+{
+  "record.day": {
+    "sounds": [
+      {
+        "name": "evoodooers:record/day",
+        "stream": true
+      }
+    ]
+  }
+}

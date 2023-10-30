@@ -7,7 +7,8 @@
   "mixins": [
     "MixinBedBlock",
     "MixinBedBlockEntity",
-    "MixinDedicatedServer"
+    "MixinDedicatedServer",
+    "RecordItemAccessor"
   ],
   "client": [
     "client.MixinMinecraft"

@@ -17,6 +17,7 @@ public class EvoodooersTabs {
     public static final RegistryObject<CreativeModeTab> EVOODOOERS_TAB = TABS.register("evoodooers", () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0).title(Component.translatable("itemGroup.evoodooers_tab")).icon(() -> new ItemStack(EvoodooersItems.VOODOO_DOLL.get())).displayItems((itemDisplayParameters, output) -> {
         output.accept(EvoodooersItems.VOODOO_DOLL.get());
         output.accept(EvoodooersItems.HAIR_TUFT.get());
+        output.accept(EvoodooersItems.DAY_RECORD.get());
     }).build());
 
     // Called in the mod initializer / constructor in order to make sure that items are registered
