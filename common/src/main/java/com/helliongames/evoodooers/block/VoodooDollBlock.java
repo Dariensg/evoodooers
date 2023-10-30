@@ -76,7 +76,9 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 }
             }
 
-            if (heldItem.is(Items.FLINT_AND_STEEL)) {
+            if (heldItem.isEmpty()) {
+                level.setBlock(pos, state.setValue(ROTATION, RotationSegment.convertToSegment(player.getYRot() + 180.0f)), 1);
+            } else if (heldItem.is(Items.FLINT_AND_STEEL)) {
                 Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
