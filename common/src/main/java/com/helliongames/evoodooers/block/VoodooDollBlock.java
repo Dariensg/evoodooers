@@ -59,7 +59,7 @@ public class VoodooDollBlock extends BaseEntityBlock {
             Player targetedPlayer = this.getTargetPlayer(null, level, voodooDoll);
             if (targetedPlayer == null) return;
 
-            targetedPlayer.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20));
+            targetedPlayer.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 0, false, false, false));
         }
     }
 
@@ -103,7 +103,7 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
                 if (!level.isClientSide) {
-                    level.explode(null, targetedPlayer.getX(), targetedPlayer.getEyeY(), targetedPlayer.getZ(), 10.0f, false, Level.ExplosionInteraction.NONE);
+                    targetedPlayer.level().explode(null, targetedPlayer.getX(), targetedPlayer.getEyeY(), targetedPlayer.getZ(), 10.0f, false, Level.ExplosionInteraction.NONE);
                 }
 
                 if (!player.getAbilities().instabuild) {
@@ -171,6 +171,24 @@ public class VoodooDollBlock extends BaseEntityBlock {
                 if (targetedPlayer == null) return InteractionResult.CONSUME;
 
                 this.playSoundToPlayer(targetedPlayer, SoundEvents.ENDERMAN_STARE, 1.0f);
+
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.GOLD_NUGGET)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.PIGLIN_ANGRY, 1.0f);
+
+                if (!player.getAbilities().instabuild) {
+                    heldItem.shrink(1);
+                }
+            } else if (heldItem.is(Items.DRAGON_HEAD)) {
+                Player targetedPlayer = this.getTargetPlayer(player, level, voodooDoll);
+                if (targetedPlayer == null) return InteractionResult.CONSUME;
+
+                this.playSoundToPlayer(targetedPlayer, SoundEvents.ENDER_DRAGON_DEATH, 2.0f);
 
                 if (!player.getAbilities().instabuild) {
                     heldItem.shrink(1);
